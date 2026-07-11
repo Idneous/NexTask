@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.nextask.ui.login.LoginScreen
+import com.example.nextask.ui.registration.RegisterScreen
 import com.example.nextask.ui.theme.NexTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,10 +27,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     LoginScreen(
-                        onLoginClick = { email, password ->
+                        onLoginClick = { username, password ->
 
-                            println("Logging in with: $email and $password")
-                        }
+                            println("Logging in with: $username and $password")
+                        },
+                        onSignUpClick = {}
                     )
                 }
             }
@@ -38,6 +40,25 @@ class MainActivity : ComponentActivity() {
 }
 
 
+
+/*@Preview(showBackground = true)
+@Composable
+fun LoginPreview() {
+    //preview
+    NexTaskTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            RegisterScreen(
+                onSignUpClick = { username, email, password ->
+                    // function
+                },
+                onSigninClick = {},
+            )
+        }
+    }
+}*/
 
 @Preview(showBackground = true)
 @Composable
@@ -49,9 +70,10 @@ fun LoginPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             LoginScreen(
-                onLoginClick = { email, password ->
+                onLoginClick = { username, password ->
                     // function
-                }
+                },
+                onSignUpClick = {},
             )
         }
     }

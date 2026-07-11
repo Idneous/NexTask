@@ -1,4 +1,4 @@
-package com.example.nextask.ui.login
+package com.example.nextask.ui.registration
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,22 +19,24 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withLink
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
-    onLoginClick: (String, String) -> Unit,
-    onSignUpClick: ()-> Unit,
+fun RegisterScreen(
+    onSignUpClick: (String, String, String) -> Unit,
+    onSigninClick: ()-> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var email by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var repassword by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+    var isrePasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -51,30 +53,40 @@ fun LoginScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
         Spacer(modifier = Modifier.weight(0.4f))
-        Spacer(modifier = Modifier.height(180.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
 
             Text(
-                text = "Login",
+                text = "Register",
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             Text(
-                text = "Please Sign In to continue.",
+                text = "Please Sign Up to continue.",
 
 
             )
 
             // usermane Text Field
             OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Username") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Username") },
+                label = { Text("Email") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -101,22 +113,42 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = repassword,
+                onValueChange = { repassword = it },
+                label = { Text("Confirm Password") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                // Toggles between dots and visible text
+                visualTransformation = if (isrePasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { isrePasswordVisible = !isrePasswordVisible }) {
+                        Icon(
+                            imageVector = if (isrePasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                            contentDescription = if (isrePasswordVisible) "Hide password" else "Show password"
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
             Spacer(modifier = Modifier.height(42.dp))
 
             Button(
-                onClick = { onLoginClick(email, password) },
+                onClick = { onSignUpClick(username, email, password) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF0F4C81),
                     disabledContainerColor = Color(0xFF0F4C81).copy(alpha = 0.5f)
                 ),
                 shape = MaterialTheme.shapes.medium,
-                enabled = email.isNotBlank() && password.isNotBlank(),
+                enabled = username.isNotBlank() && password.isNotBlank(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
             ) {
                 Text(
-                    text = "Sign In",
+                    text = "Sign Up",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
@@ -130,7 +162,7 @@ fun LoginScreen(
                 append("Dont have account? ")
                 withLink(
                     LinkAnnotation.Clickable(
-                        tag = "signUp",
+                        tag = "logIn",
                         styles = TextLinkStyles(
                             style = SpanStyle(
                                 fontWeight = FontWeight.Bold,
@@ -138,11 +170,11 @@ fun LoginScreen(
                             )
                         ),
                         linkInteractionListener = {
-                            onSignUpClick()
+                            onSigninClick()
                         }
                     )
                 ) {
-                    append("Sign Up")
+                    append("Sign In")
                 }
 
                 Text(

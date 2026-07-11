@@ -4,12 +4,35 @@ import io.ktor.client.request.*
 import io.ktor.client.call.*
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class UserProfile(val id: Int, val name: String, val email: String)
+import com.example.nextask.data.model.LoginRequest
+import com.example.nextask.data.model.LoginResponse
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 class ApiService {
-    suspend fun getUser(): UserProfile {
-        // ktorClient will automatically parse the JSON response into your UserProfile data class
-        return ktorClient.get("https://api.example.com/user").body()
+    private val client = HttpClient(OkHttp) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            })
+        }
+    }
+
+    suspend fun login(request: LoginRequest): LoginResponse {
+        // We target the file path location of your PHP server
+        val response = client.post("http://10.0.2.2/your_project_folder/login.php") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+
+        // Converts the JSON response back to our LoginResponse object
+        return response.body()
     }
 }
