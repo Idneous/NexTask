@@ -9,7 +9,7 @@ data class UserProfile(val id: Int, val name: String, val email: String)
 
 class ApiService {
     suspend fun getUser(): UserProfile {
-        // ktorClient will automatically parse the JSON response into your UserProfile data class
+        // allow ktor to parse JSON
         return ktorClient.get("https://api.example.com/user").body()
     }
 }
