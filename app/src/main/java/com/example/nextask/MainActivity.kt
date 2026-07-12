@@ -13,6 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.nextask.ui.homepage.DashboardStats
+import com.example.nextask.ui.homepage.HomepageScreen
+import com.example.nextask.ui.homepage.PriorityTask
 import com.example.nextask.ui.login.LoginScreen
 import com.example.nextask.ui.registration.RegisterScreen
 import com.example.nextask.ui.theme.NexTaskTheme
@@ -59,7 +63,7 @@ fun LoginPreview() {
         }
     }
 }*/
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
@@ -77,4 +81,35 @@ fun LoginPreview() {
             )
         }
     }
+}*/
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun DashboardScreenPreview() {
+    val sampleStats = DashboardStats(remainingTasks = 2, dueToday = 1, completedTasks = 15)
+    val sampleTasks = listOf(
+        PriorityTask(
+            title = "Final Project Presentation", subject = "IT140P",
+            deadline = "2026-07-15", priority = "High",
+            progress = 0.30f, loggedHours = 1.30, totalHours = 4.30
+        ),
+        PriorityTask(
+            title = "Data Science Quiz", subject = "CS191-4P",
+            deadline = "2026-07-22", priority = "Low",
+            progress = 0.00f, loggedHours = 0.00, totalHours = 1.00
+        )
+    )
+    //sample data
+    HomepageScreen(
+        userName = "Juan",
+        stats = sampleStats,
+        tasks = sampleTasks,
+        onViewAnalyticsClick = {},
+        onViewTasksClick = {},
+        onAddTaskClick = {},
+        navController = rememberNavController(),
+        modifier = Modifier
+    )
 }
+

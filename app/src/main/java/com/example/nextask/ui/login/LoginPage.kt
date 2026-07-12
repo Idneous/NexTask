@@ -70,7 +70,7 @@ fun LoginScreen(
 
             )
 
-            // usermane Text Field
+            // usermane text field
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },

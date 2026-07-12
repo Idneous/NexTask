@@ -56,10 +56,15 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+
     //Testing UI
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
-
+    implementation("androidx.navigation:navigation-compose:2.8.5")
 
 
     testImplementation(libs.junit)
