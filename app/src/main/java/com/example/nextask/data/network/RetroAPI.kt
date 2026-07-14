@@ -2,7 +2,7 @@ package com.example.nextask.data.network
 
 import com.example.nextask.data.model.CreateTaskRequest
 import com.example.nextask.data.model.CreateTaskResponse
-import com.example.nextask.ui.homepage.PriorityTask
+import com.example.nextask.data.model.PriorityTask
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

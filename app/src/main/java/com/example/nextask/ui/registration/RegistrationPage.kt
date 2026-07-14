@@ -77,7 +77,7 @@ fun RegisterScreen(
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("Username") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -120,6 +120,7 @@ fun RegisterScreen(
                 label = { Text("Confirm Password") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                isError = repassword.isNotBlank() && password != repassword,
                 // Toggles between dots and visible text
                 visualTransformation = if (isrePasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -133,6 +134,15 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            if (repassword.isNotBlank() && password != repassword) {
+                Text(
+                    text = "Passwords do not match",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.height(42.dp))
 
             Button(
@@ -142,7 +152,10 @@ fun RegisterScreen(
                     disabledContainerColor = Color(0xFF0F4C81).copy(alpha = 0.5f)
                 ),
                 shape = MaterialTheme.shapes.medium,
-                enabled = username.isNotBlank() && password.isNotBlank(),
+                enabled = username.isNotBlank() && 
+                          email.isNotBlank() && 
+                          password.isNotBlank() && 
+                          password == repassword,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
@@ -157,16 +170,15 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-
             val annotatedString = buildAnnotatedString {
-                append("Dont have account? ")
+                append("Already have an account? ")
                 withLink(
                     LinkAnnotation.Clickable(
                         tag = "logIn",
                         styles = TextLinkStyles(
                             style = SpanStyle(
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color = Color(0xFF0F4C81)
                             )
                         ),
                         linkInteractionListener = {
@@ -176,16 +188,16 @@ fun RegisterScreen(
                 ) {
                     append("Sign In")
                 }
-
-                Text(
-                    text = toAnnotatedString(),
-                    color = Color.DarkGray,
-                    fontSize = 14.sp
-                )
-                Spacer(modifier = Modifier.weight(0.3f))
-
-
             }
+
+            Text(
+                text = annotatedString,
+                color = Color.DarkGray,
+                fontSize = 14.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.weight(0.3f))
         }
     }
 }

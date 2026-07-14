@@ -30,48 +30,22 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nextask.ui.NavItem
+import com.example.nextask.data.model.PriorityTask
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Calendar
 import java.util.Locale
 import kotlin.math.max
 
-data class Tasks(
-    val title: String,
-    val subject: String,
-    val deadline: String, // Expected format: "YYYY-MM-DD"
-    val priority: String,
-    val progress: Float,
-    val loggedHours: Double,
-    val totalHours: Double
-) {
-    val daysLeft: Double
-        get() = try {
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val now = Date()
-            val targetDate = formatter.parse(deadline)
-
-            if (targetDate != null) {
-                val differenceInMs = targetDate.time - now.time
-                val decimalDays = differenceInMs.toDouble() / 86400000.0
-                max(0.0, decimalDays)
-            } else {
-                0.0
-            }
-        } catch (e: Exception) {
-            0.0
-        }
-}
-
 @Composable
 fun TasklistPage(
     userName: String,
-    tasks: List<Tasks>,
+    tasks: List<PriorityTask>,
     navController: NavController,
     onViewAnalyticsClick: () -> Unit,
     onViewTasksClick: () -> Unit,
     onAddTaskClick: () -> Unit,
-    onEditTaskClick: (Tasks) -> Unit,
+    onEditTaskClick: (PriorityTask) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val datetoday = Date()
@@ -261,7 +235,7 @@ fun TasklistPage(
 
 @Composable
 fun TaskItem(
-    task: Tasks,
+    task: PriorityTask,
     onEditClick: () -> Unit
 ) {
     Box(
@@ -430,14 +404,14 @@ fun RowScope.BottomNavItem(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DashboardScreenPreview() {
+fun TaskListScreenPreview() {
     val sampleTasks = listOf(
-        Tasks(
+        PriorityTask(
             title = "Final Project Presentation", subject = "IT140P",
             deadline = "2026-07-15", priority = "High",
             progress = 0.30f, loggedHours = 1.30, totalHours = 4.30
         ),
-        Tasks(
+        PriorityTask(
             title = "Data Science Quiz", subject = "CS191-4P",
             deadline = "2026-07-22", priority = "Low",
             progress = 0.00f, loggedHours = 0.00, totalHours = 1.00
@@ -451,6 +425,6 @@ fun DashboardScreenPreview() {
         onViewAnalyticsClick = {},
         onViewTasksClick = {},
         onAddTaskClick = {},
-        onEditTaskClick = {}
+        onEditTaskClick = { _ -> }
     )
 }

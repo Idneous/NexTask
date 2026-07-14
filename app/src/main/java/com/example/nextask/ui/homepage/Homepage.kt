@@ -29,49 +29,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nextask.ui.NavItem
+import com.example.nextask.data.model.PriorityTask
+import com.example.nextask.data.model.DashboardStats
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.math.max
-
-data class DashboardStats(
-    val remainingTasks: Int,
-    val dueToday: Int,
-    val completedTasks: Int
-)
-
-data class PriorityTask(
-    val title: String,
-    val subject: String,
-    val deadline: String, // Expected format: "YYYY-MM-DD"
-    val priority: String,
-    val progress: Float,
-    val loggedHours: Double,
-    val totalHours: Double
-) {
-    //get days left by deadline minus date today
-    val daysLeft: Double
-        get() = try {
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-            val now = Date()
-            val targetDate = formatter.parse(deadline) // Target deadline date
-
-            if (targetDate != null) {
-                // Difference in milliseconds
-                val differenceInMs = targetDate.time - now.time
-
-                // (1000 ms * 60s * 60m * 24h = 86,400,000 ms in a day)
-                val decimalDays = differenceInMs.toDouble() / 86400000.0
-
-                max(0.0, decimalDays)
-            } else {
-                0.0
-            }
-        } catch (e: Exception) {
-            0.0
-        }
-}
 
 @Composable
 fun HomepageScreen(

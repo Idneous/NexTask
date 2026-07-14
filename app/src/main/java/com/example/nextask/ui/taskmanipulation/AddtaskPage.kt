@@ -306,8 +306,7 @@ fun CustomOutlinedTextField(
         modifier = modifier.height(52.dp)
     )
 }
-
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AddTaskPagePreview() {
     AddTaskPage(onBackClick = {}, onCreateTaskClick = { _, _, _, _, _, _ -> })

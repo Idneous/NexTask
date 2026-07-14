@@ -74,7 +74,7 @@ fun LoginScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Username") },
+                label = { Text("Email") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -125,7 +125,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-
             val annotatedString = buildAnnotatedString {
                 append("Dont have account? ")
                 withLink(
@@ -134,7 +133,7 @@ fun LoginScreen(
                         styles = TextLinkStyles(
                             style = SpanStyle(
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color = Color(0xFF0F4C81)
                             )
                         ),
                         linkInteractionListener = {
@@ -144,16 +143,16 @@ fun LoginScreen(
                 ) {
                     append("Sign Up")
                 }
-
-                Text(
-                    text = toAnnotatedString(),
-                    color = Color.DarkGray,
-                    fontSize = 14.sp
-                )
-                Spacer(modifier = Modifier.weight(0.3f))
-
-
             }
+
+            Text(
+                text = annotatedString,
+                color = Color.DarkGray,
+                fontSize = 14.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.weight(0.3f))
         }
     }
 }
